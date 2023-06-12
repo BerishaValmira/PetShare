@@ -19,7 +19,9 @@ const BaseSpa = () => {
       </div>
 
       <div className="divider"></div>
-      <Outlet />
+      <div className="card-body ">
+        <Outlet />
+      </div>
       <div className="divider"></div>
       <div className="card-body ">
         <Footer />

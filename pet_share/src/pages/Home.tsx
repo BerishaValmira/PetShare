@@ -1,4 +1,6 @@
 import Slider from "../components/Slider";
+import { Spacer } from "../components/Spacer";
+import { Stepper } from "../components/Stepper";
 import { TextCard } from "../components/TextCard";
 import { WavyBackround } from "../components/WavyBackround";
 
@@ -20,13 +22,8 @@ const Home = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex">
-        <Slider />
-      </div>
-      <WavyBackround />
-      <TextCard></TextCard>
-      <div className="divider"></div>
-      <div className="flex items-center">hello there</div>
+      <Slider />
+      <Spacer />
     </div>
   );
 };
