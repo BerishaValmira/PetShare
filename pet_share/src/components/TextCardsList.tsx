@@ -1,3 +1,4 @@
+import DogLogo from "./DogLogo";
 import { TextCard } from "./TextCard";
 
 const HOME_PAGE_CONTENT = [
@@ -38,7 +39,12 @@ const TextCardsList = () => {
 
         return (
           <>
-            <div className="divider divider-vertical h-44">OR</div>
+            <div className="divider divider-vertical h-20" />
+
+            <DogLogo />
+            <div className="divider divider-vertical h-20" />
+            {/* <DogLogo /> */}
+
             <TextCard title={title} textBody={textBody} />
           </>
         );
