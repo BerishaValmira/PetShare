@@ -5,11 +5,12 @@ type TextCardProps = {
   textBody: string;
 };
 
-const TextCard = () => {
+const TextCard = ({ title, textBody }: TextCardProps) => {
   return (
     <div className="card">
       <div className="card-body flex justify-center">
-        <div className="card-header">Title</div>
+        <div className="card-header">{title}</div>
+        <p className="text-content2">{textBody}</p>
       </div>
     </div>
   );
