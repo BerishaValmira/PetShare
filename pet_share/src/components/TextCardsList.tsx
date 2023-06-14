@@ -1,5 +1,5 @@
-import DogLogo from "./DogLogo";
 import { TextCard } from "./TextCard";
+import { MdOutlinePets } from "react-icons/md";
 
 const HOME_PAGE_CONTENT = [
   {
@@ -41,9 +41,8 @@ const TextCardsList = () => {
           <>
             <div className="divider divider-vertical h-20" />
 
-            <DogLogo />
+            <MdOutlinePets fill={"black"} size="2rem" />
             <div className="divider divider-vertical h-20" />
-            {/* <DogLogo /> */}
 
             <TextCard title={title} textBody={textBody} />
           </>

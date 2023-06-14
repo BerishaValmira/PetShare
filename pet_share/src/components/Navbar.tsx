@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { PageLogo } from "./PageLogo";
 
 type NavLinkType = {
   route: string;
@@ -22,7 +23,10 @@ const Navbar = () => {
     <div>
       <div className="navbar rounded-md">
         <div className="navbar-start">
-          <a className="navbar-item">Ripple UI</a>
+          <a className="navbar-item">
+            {" "}
+            <PageLogo />
+          </a>
         </div>
         <div className="navbar-end">
           {NAVLINKS.map((navLink, index) => (
