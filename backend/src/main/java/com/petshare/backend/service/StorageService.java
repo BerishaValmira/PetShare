@@ -5,6 +5,7 @@ import com.petshare.backend.entity.Image;
 import com.petshare.backend.exception.NotFoundException;
 import com.petshare.backend.repository.AudioRepository;
 import com.petshare.backend.repository.ImageRepository;
+import com.petshare.backend.util.RandomFourGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -24,9 +25,9 @@ public class StorageService {
 
     private final AudioRepository audioRepository;
 
-    private final String IMAGE_PATH = "C:/Users/SherifHoti/Desktop/pet_share_frontend/images/";
+    private final String IMAGE_PATH = "C:/Users/SherifHoti/Desktop/PetShare-v2/images/";
 
-    private final String AUDIO_PATH = "C:/Users/SherifHoti/Desktop/pet_share_frontend/audios/";
+    private final String AUDIO_PATH = "C:/Users/SherifHoti/Desktop/PetShare-v2/audios/";
 
     public Image uploadImage(MultipartFile file){
 
@@ -35,11 +36,11 @@ public class StorageService {
             String originalFilename = file.getOriginalFilename();
             System.out.println(file.getContentType());
             String fileExtension = StringUtils.getFilenameExtension(originalFilename);
-            String uniqueFilename = file.getName();
+            String uniqueFilename = RandomFourGenerator.generateRandomFourLetter();
             String filePath = IMAGE_PATH+uniqueFilename+".jpeg";
 
             Image image = Image.builder()
-                    .name(file.getOriginalFilename())
+                    .name(uniqueFilename)
                     .type(file.getContentType())
                     .filePath(filePath)
                     .build();
@@ -73,7 +74,7 @@ public class StorageService {
             // Generate a unique filename for the audio file
             String originalFilename = file.getOriginalFilename();
             String fileExtension = StringUtils.getFilenameExtension(originalFilename);
-            String uniqueFilename = file.getName() + "." + "mp3";
+            String uniqueFilename = RandomFourGenerator.generateRandomFourLetter();
             String filePath = AUDIO_PATH + uniqueFilename;
 
             Audio audio = Audio.builder()

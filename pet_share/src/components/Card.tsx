@@ -39,8 +39,8 @@ const Card = ({
         height={400}
       />
       <div className="card-body">
-        <h2 className="card-header">{title}</h2>
-        <h2 className="card-header">{category}</h2>
+        <h2 className="card-header">Name: {title}</h2>
+        <h2 className="card-header">Type: {category}</h2>
         <p className="text-content2">{message}</p>
         {audioData && <audio ref={audioRef} controls />}
         <div className="card-footer">
