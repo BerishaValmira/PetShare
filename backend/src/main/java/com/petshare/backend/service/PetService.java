@@ -1,5 +1,7 @@
 package com.petshare.backend.service;
 
+import com.petshare.backend.DTO.GetPageableRequest;
+import com.petshare.backend.DTO.PageModel;
 import com.petshare.backend.DTO.PetRequest;
 import com.petshare.backend.DTO.PetResponse;
 import com.petshare.backend.entity.Audio;
@@ -7,6 +9,10 @@ import com.petshare.backend.entity.Image;
 import com.petshare.backend.entity.Pet;
 import com.petshare.backend.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,9 +54,21 @@ public class PetService {
                 .build();
     }
 
-    public List<PetResponse> getPets(){
-        return petRepository.findAll().stream().map(pet ->
-                PetResponse.builder()
+    public PageModel<PetResponse> getPets(GetPageableRequest request){
+
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), Sort.by(request.getSortColumn()));
+
+        if(request.getSortDirection().equals("DESC")){
+            pageable = PageRequest.of(request.getPage(), request.getSize(), Sort.by(request.getSortColumn()).descending());
+        }
+        Page<Pet> data = petRepository.findAll(pageable);
+
+        return PageModel.<PetResponse>builder()
+                .page(data.getNumber())
+                .size(data.getSize())
+                .total(data.getTotalPages())
+                .sortedColumn(request.getSortColumn())
+                .data(data.stream().map(pet -> PetResponse.builder()
                         .id(pet.getId())
                         .type(pet.getType())
                         .name(pet.getName())
@@ -58,8 +76,10 @@ public class PetService {
                         .createdAt(pet.getCreatedAt())
                         .audio(storageService.downloadAudio(pet.getAudio().getName()))
                         .image(storageService.downloadImage(pet.getImage().getName()))
-                        .build()
-                ).collect(Collectors.toList());
+                        .build()).collect(Collectors.toList()))
+                .build();
+
+
     }
 
 }

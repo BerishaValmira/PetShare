@@ -1,5 +1,6 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { usePetsHook } from "../slices/usePetsHook";
+import { useNavigate } from "react-router-dom";
 
 const AddPetForm = () => {
   const [selectedImage, setSelectedImage] = useState<
@@ -12,11 +13,13 @@ const AddPetForm = () => {
     string | ArrayBuffer | null
   >(null);
 
+  const navigate = useNavigate();
+
   const [petName, setPetName] = useState("");
   const [petKind, setPetKind] = useState("");
   const [petDescription, setPetDescription] = useState("");
 
-  const { create, createState } = usePetsHook();
+  const { create, createState, clr } = usePetsHook();
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -70,6 +73,13 @@ const AddPetForm = () => {
     formData.append("audio", audioBlob);
     create(formData);
   };
+
+  useEffect(() => {
+    if (createState === "success") {
+      navigate("/pets");
+      clr();
+    }
+  }, [createState]);
 
   return (
     <div>
@@ -131,8 +141,16 @@ const AddPetForm = () => {
             />
           </div>
           <div className="card-footer">
-            <button className="btn-secondary btn" onClick={handleSubmit}>
-              Learn More
+            <button
+              className={
+                createState === "loading"
+                  ? "btn-secondary btn btn-loading"
+                  : "btn-secondary btn"
+              }
+              onClick={handleSubmit}
+              disabled={createState === "loading" ? true : false}
+            >
+              Submit
             </button>
           </div>
         </div>

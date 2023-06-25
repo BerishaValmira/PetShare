@@ -5,16 +5,36 @@ import axios from 'axios';
 
 type ReduxState = "success" | "failure" | "loading" | "idle"
 
+type SortDirection = "ASC" | "DESC"
+
 interface CounterState {
-    pets: any[],
+    pets?: PetsData,
     state: ReduxState,
     createdState: ReduxState
+}
+
+export type PetsData = {
+    page: number
+    total: number
+    size: number
+    sortedColumn: string,
+    data: any[]
+}
+
+interface PetsQueryParams extends URLSearchParams {
+    page?: number,
+    size?: number
+    sortDirection?: SortDirection
+    sortColumn?: string
+}
+
+export type PetsRequest = {
+    params?: PetsQueryParams
 }
 
 const BASE_URL = 'http://localhost:8081/api/v1/pet';
 
 const initialState: CounterState = {
-    pets: [],
     state: "idle",
     createdState: "idle"
 }
@@ -27,10 +47,10 @@ export const createPet = createAsyncThunk(
     }
 )
 
-export const fetchPets = createAsyncThunk(
+export const fetchPets = createAsyncThunk<any, PetsRequest>(
     'pets/fetch',
-    async () => {
-        const response = await axios.get(BASE_URL);
+    async ({ params }) => {
+        const response = await axios.get(BASE_URL, { params });
         return response.data;
     }
 )
@@ -39,6 +59,7 @@ const counterSlice = createSlice({
     name: 'pets',
     initialState,
     reducers: {
+        clear: () => initialState
     },
     extraReducers: (builder) => {
         builder.addCase(fetchPets.fulfilled, (state, action: PayloadAction<any>) => {
@@ -68,4 +89,5 @@ const counterSlice = createSlice({
 export const selectPets = (state: RootState) => state.counter.pets;
 export const selectState = (state: RootState) => state.counter.state;
 export const selectCreateState = (state: RootState) => state.counter.createdState;
+export const { clear } = counterSlice.actions;
 export default counterSlice.reducer;

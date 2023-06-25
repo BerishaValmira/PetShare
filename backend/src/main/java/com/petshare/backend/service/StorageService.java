@@ -90,12 +90,6 @@ public class StorageService {
         }
     }
 
-    private String generateUniqueFilename() {
-        // TODO: Implement a logic to generate a unique filename
-        return UUID.randomUUID().toString();
-    }
-
-
     public byte[] downloadAudio(String fileName) {
 
         try {

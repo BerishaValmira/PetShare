@@ -1,6 +1,9 @@
 package com.petshare.backend.controller;
 
+import com.petshare.backend.DTO.GetPageableRequest;
+import com.petshare.backend.DTO.PageModel;
 import com.petshare.backend.DTO.PetRequest;
+import com.petshare.backend.DTO.PetResponse;
 import com.petshare.backend.service.PetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +30,9 @@ public class PetController {
     }
 
     @GetMapping("pet")
-    public ResponseEntity<?> getPets(){
+    public ResponseEntity<PageModel<PetResponse>> getPets(GetPageableRequest request){
         return ResponseEntity
                 .status(200)
-                .body(petService.getPets());
+                .body(petService.getPets(request));
     }
 }
